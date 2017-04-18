@@ -1,0 +1,92 @@
+From fca9abe3624a926f9fbb0dc043ff388b29db56f5 Mon Sep 17 00:00:00 2001
+From: Jeremy Cline <jeremy@jcline.org>
+Date: Tue, 12 Jul 2016 14:04:00 -0400
+Subject: [PATCH 1/2] Adjust imports to avoid using vendored packages
+
+Signed-off-by: Jeremy Cline <jeremy@jcline.org>
+---
+ clint/__init__.py        | 7 +------
+ clint/arguments.py       | 6 +-----
+ clint/resources.py       | 2 +-
+ clint/textui/__init__.py | 3 ---
+ clint/textui/colored.py  | 2 +-
+ 5 files changed, 4 insertions(+), 16 deletions(-)
+
+diff --git a/clint/__init__.py b/clint/__init__.py
+index a8d5a62..51f3ff0 100644
+--- a/clint/__init__.py
++++ b/clint/__init__.py
+@@ -11,12 +11,7 @@ This module sets up the main interface for all of clint.
+ 
+ from __future__ import absolute_import
+ 
+-try:
+-    from collections import OrderedDict
+-except ImportError:
+-    from .packages.ordereddict import OrderedDict
+-    import collections
+-    collections.OrderedDict = OrderedDict
++from collections import OrderedDict
+ 
+ from .arguments import *
+ from . import textui
+diff --git a/clint/arguments.py b/clint/arguments.py
+index d13622a..3abd7ff 100644
+--- a/clint/arguments.py
++++ b/clint/arguments.py
+@@ -13,11 +13,7 @@ from __future__ import absolute_import
+ 
+ import os
+ from sys import argv
+-
+-try:
+-    from collections import OrderedDict
+-except ImportError:
+-    from .packages.ordereddict import OrderedDict
++from collections import OrderedDict
+ 
+ from .utils import expand_path, is_collection
+ 
+diff --git a/clint/resources.py b/clint/resources.py
+index b499a0f..0648e0e 100644
+--- a/clint/resources.py
++++ b/clint/resources.py
+@@ -16,7 +16,7 @@ import errno
+ from os import remove, removedirs
+ from os.path import isfile, join as path_join
+ 
+-from .packages.appdirs import AppDirs, AppDirsError
++from appdirs import AppDirs, AppDirsError
+ from .utils import mkdir_p, is_collection
+ 
+ 
+diff --git a/clint/textui/__init__.py b/clint/textui/__init__.py
+index 7411343..0e7b3a4 100644
+--- a/clint/textui/__init__.py
++++ b/clint/textui/__init__.py
+@@ -8,9 +8,6 @@ This module provides the text output helper system.
+ 
+ """
+ import sys
+-if sys.platform.startswith('win'):
+-    from ..packages import colorama
+-    colorama.init()
+ 
+ from . import colored
+ from . import progress
+diff --git a/clint/textui/colored.py b/clint/textui/colored.py
+index e2f6f13..ae62dfd 100644
+--- a/clint/textui/colored.py
++++ b/clint/textui/colored.py
+@@ -17,7 +17,7 @@ import sys
+ 
+ PY3 = sys.version_info[0] >= 3
+ 
+-from ..packages import colorama
++import colorama
+ 
+ __all__ = (
+     'red', 'green', 'yellow', 'blue',
+-- 
+2.7.4
+
